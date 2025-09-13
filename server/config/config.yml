@@ -1,0 +1,15 @@
+database:
+  host: 127.0.0.1
+  username: postgres
+  password: GzWNAAfEwAtnBSnb
+  name: db_enterprise
+  port: 5432
+  driver: postgres
+secret_key: uhbi49y823ry78923ijrgu803289u3ui23
+service:
+  port: 8009
+  timeZone: "Asia/Phnom_Penh"
+  logPtah: "logs/service-snap.log"
+  http: true
+  rabbitmq: false
+  grcp: false

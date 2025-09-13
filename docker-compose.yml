@@ -1,0 +1,45 @@
+x-common-variables: &common-env
+  TAG: 20241004-UAT-01
+  REGISTRY: ghcr.io/imanager.io/service
+services:
+  imanager.io:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    platform: linux/amd64
+    image: "imanager.io:latest"
+    restart: always
+    hostname: imanagerio
+    container_name: imanager.io
+    environment:
+      - TZ=Asia/Phnom_Penh
+    volumes:
+      - ./config:/app/config
+    networks:
+      - app-network
+    ports:
+      - "8009:80"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:16-alpine
+    container_name: imanager_db
+    hostname: database-server
+    restart: always
+    environment:
+      - POSTGRES_DB=imanager_db
+      - POSTGRES_USER=imanager_db
+      - POSTGRES_PASSWORD=imanager_db
+      - TZ=Asia/Phnom_Penh
+    ports:
+      - "5423:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  postgres_data:
+  redis_data:

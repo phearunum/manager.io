@@ -1,0 +1,15 @@
+database:
+  host: database-server
+  username: imanager_db
+  password: imanager_db
+  name: imanager_db
+  port: 5432
+  driver: postgres
+secret_key: uhbi49y823ry78923ijrgu803289u3ui23
+service:
+  port: 80
+  timeZone: "Asia/Phnom_Penh"
+  logPtah: "logs/service-snap.log"
+  http: true
+  rabbitmq: false
+  grcp: false

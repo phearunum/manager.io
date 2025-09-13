@@ -1,0 +1,33 @@
+# Build stage
+FROM golang:1.24.3 AS builder
+WORKDIR /app
+# Copy only the Go module files to a temporary location
+COPY server/go.mod server/go.sum ./server/
+# Change to the server directory to download dependencies
+WORKDIR /app/server
+RUN go mod download
+# Copy the rest of the source code
+COPY server/ .
+# Build the Go binary
+# NOTE: The -a and -installsuffix cgo flags are not needed with CGO_ENABLED=0
+RUN CGO_ENABLED=0 GOOS=linux go build -o imanager.io ./cmd
+
+# Final stage
+FROM alpine:latest
+WORKDIR /app
+# Install timezone data
+RUN apk add --no-cache tzdata
+# Set the timezone
+ENV TZ=Asia/Phnom_Penh
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Copy the built binary from the builder stage
+COPY --from=builder /app/server/imanager.io .
+# The config file should be managed via a volume mount for best practice.
+# This assumes you're using docker-compose.yml to mount the config directory.
+# Example: - ./config:/app/config
+
+EXPOSE 80
+
+# Run the binary
+CMD ["./imanager.io"]
