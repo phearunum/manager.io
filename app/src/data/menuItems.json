@@ -1,0 +1,74 @@
+[
+    {
+        "id": "team-workspace",
+        "title": "Team Workspace",
+        "items": [
+            {
+                "id": "dashboard",
+                "label": "Dashboard",
+                "icon": "🏠"
+            },
+            {
+                "id": "analytics",
+                "label": "Analytics",
+                "icon": "📈"
+            },
+            {
+                "id": "insights",
+                "label": "Insights",
+                "icon": "📊",
+                "notifications": 2
+            },
+            {
+                "id": "updates",
+                "label": "Updates",
+                "icon": "📅",
+                "notifications": 6
+            }
+        ]
+    },
+    {
+        "id": "products",
+        "title": "Products",
+        "items": [
+            {
+                "id": "fashion",
+                "label": "Fashion"
+            },
+            {
+                "id": "home-decor",
+                "label": "Home Decor"
+            },
+            {
+                "id": "skincare",
+                "label": "Skincare"
+            },
+            {
+                "id": "snacks",
+                "label": "Snacks"
+            }
+        ]
+    },
+    {
+        "id": "general",
+        "title": "General",
+        "items": [
+            {
+                "id": "notifications",
+                "label": "Notifications",
+                "icon": "🔔",
+                "notifications": 8
+            },
+            {
+                "id": "settings",
+                "label": "Settings",
+                "icon": "⚙️"
+            },
+            {
+                "id": "feedback",
+                "label": "Feedback",
+                "icon": "📢"
+            }
+        ]
+    }
+]
