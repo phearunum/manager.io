@@ -1,116 +1,189 @@
-import React, { useState } from "react";
 import {
-  ChevronLeft,
-  Plus,
-  Bell,
   Moon,
   Sun,
-  ChevronDown,
-  LogOut,
+  Bell,
   Settings,
+  LogOut,
+  ChevronDown,
+  ArrowRightLeft,
 } from "lucide-react";
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
+import { useSidebar } from "@/components/context/SidebarContext";
+import { useFontSize } from "@/components/context/FontSizeContext";
+import { useNavigate } from "react-router-dom";
 
-// Define the component props
 interface HeaderProps {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
-  toggleSidebar: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  isDarkMode,
-  toggleDarkMode,
-  toggleSidebar,
-}) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const user = {
-    name: "Abdul Aziz",
-    avatar:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleDarkMode }) => {
+  const { isSidebarCollapsed, setIsSidebarCollapsed } = useSidebar();
+  const { increaseFont, decreaseFont } = useFontSize();
+  const navigate = useNavigate();
+
+  const toggleSidebar = () => setIsSidebarCollapsed((prev) => !prev);
+
+  // Get user info from localStorage
+  const [user, setUser] = React.useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored
+      ? JSON.parse(stored)
+      : {
+          name: "Guest",
+          email: "guest@example.com",
+          avatar:
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+        };
+  });
+
+  // Update user state on login/logout
+  React.useEffect(() => {
+    const stored = localStorage.getItem("user");
+    if (stored) setUser(JSON.parse(stored));
+    else
+      setUser({
+        name: "Guest",
+        email: "guest@example.com",
+        avatar:
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+      });
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
+    setUser({
+      name: "Guest",
+      email: "guest@example.com",
+      avatar:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    });
+    navigate("/login");
   };
 
   return (
-    <header className="flex items-center justify-between p-1 bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-      {/* Left Section: Navigation and Title */}
-      <div className="flex items-center space-x-4">
-        {/* Collapse Icon */}
-        <button
-          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 dark:bggray-900 p-2"
-          onClick={toggleSidebar}
-        >
-          <ChevronLeft className="h-6 w-6 transform rotate-180" />
-        </button>
-        <span className="font-semibold text-gray-800 dark:text-gray-100">
-          Dashboard
-        </span>
+    <header className="rounded-md flex items-center w-full justify-between px-3 py-1 bg-white/85 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:bg-gray-800/95">
+      {/* Left: Collapse + Title */}
+      <div className="flex items-center space-x-4 dark:text-gray-100">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              className="cursor-pointer"
+              variant="outline"
+              size="icon"
+              onClick={toggleSidebar}
+            >
+              <ArrowRightLeft
+                className={cn(
+                  "h-5 w-5 transition-transform duration-200 dark:text-gray-100",
+                  !isSidebarCollapsed ? "rotate-0" : "rotate-180"
+                )}
+              />
+            </Button>
+          </TooltipTrigger>
+        </Tooltip>
+        <span className="font-semibold dark:text-gray-100">Dashboard</span>
       </div>
 
-      {/* Right Section: Add Workspace, Icons, and Account Avatar */}
-      <div className="flex items-center space-x-4">
-        <button className="flex items-center space-x-2 py-2 px-4 rounded-lg text-white font-semibold bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 transition-colors shadow-lg">
-          <Plus className="h-5 w-5" />
-          <span>Add Workspace</span>
-        </button>
+      {/* Right: Font size buttons + Dark mode + Notifications + User */}
+      <div className="flex items-center gap-2">
+        {/* Font size */}
+        <div className="flex items-center gap-1 dark:text-gray-100 cursor-pointer">
+          <Button
+            className="cursor-pointer"
+            size="icon"
+            variant="outline"
+            onClick={decreaseFont}
+          >
+            A-
+          </Button>
+          <Button
+            className="cursor-pointer"
+            size="icon"
+            variant="outline"
+            onClick={increaseFont}
+          >
+            A+
+          </Button>
+        </div>
 
-        {/* Dark Mode Button with dynamic icon */}
-        <button
+        {/* Dark mode toggle */}
+        <Button
+          className="text-muted-foreground"
+          variant="outline"
+          size="icon"
           onClick={toggleDarkMode}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
         >
           {isDarkMode ? (
-            <Sun className="h-6 w-6 text-yellow-400" />
+            <Sun className="h-5 w-5 text-gray-100" />
           ) : (
-            <Moon className="h-6 w-6 text-gray-500" />
+            <Moon className="h-5 w-5 " />
           )}
-        </button>
+        </Button>
 
-        {/* Notifications Icon with red dot */}
-        <button className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-          <Bell className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500"></span>
-        </button>
+        {/* Notifications */}
+        <Button
+          className="relative text-muted-foreground"
+          variant="outline"
+          size="icon"
+        >
+          <Bell className="h-5 w-5 dark:text-gray-100" />
+          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500" />
+        </Button>
 
-        {/* Account Avatar with Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center space-x-2 cursor-pointer focus:outline-none"
+        {/* User menu */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="flex items-center gap-2 rounded-full -mr-5"
+            >
+              <img
+                src={user.avatar}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full"
+              />
+              <span className="sr-only">Open user menu</span>
+              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-56 border-0 mr-2 dark:bg-gray-900  dark:text-white"
+            align="end"
+            forceMount
           >
-            <img
-              src={user.avatar}
-              alt="User Avatar"
-              className="w-10 h-10 rounded-full"
-            />
-            <ChevronDown className="h-5 w-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" />
-          </button>
-
-          {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-200 dark:border-gray-700">
-              <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-                <span className="block font-semibold text-gray-800 dark:text-gray-200">
-                  {user.name}
-                </span>
-                <span className="block text-sm text-gray-500 dark:text-gray-400">
-                  View Profile
-                </span>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{user.name}</p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {user.email}
+                </p>
               </div>
-              <a
-                href="#"
-                className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <Settings className="h-5 w-5 mr-2" />
-                Settings
-              </a>
-              <a
-                href="#"
-                className="flex items-center px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900 transition-colors"
-              >
-                <LogOut className="h-5 w-5 mr-2" />
-                Sign Out
-              </a>
-            </div>
-          )}
-        </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

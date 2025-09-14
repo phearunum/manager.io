@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "username": "admin",
+        "password": "admin123",
+        "name": "Administrator",
+        "email": "admin@example.com",
+        "avatar": "https://oss.wintoco.com/baowang/f6cfcfc5d6734640ab2f28c9fc1b35fb.jpg"
+    },
+    {
+        "id": 2,
+        "username": "user",
+        "password": "user123",
+        "name": "Normal User",
+        "email": "user@example.com",
+        "avatar": "https://i.pinimg.com/170x/6f/d4/ee/6fd4ee9b13076f991aab35529bc71644.jpg"
+    }
+]

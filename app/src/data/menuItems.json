@@ -1,73 +1,98 @@
 [
     {
         "id": "team-workspace",
-        "title": "Team Workspace",
+        "title": "Dashboard",
+        "hidden": true,
         "items": [
             {
                 "id": "dashboard",
                 "label": "Dashboard",
-                "icon": "🏠"
+                "icon": "🏠",
+                "route": "/",
+                "translateKey": "menu.dashboard"
             },
             {
                 "id": "analytics",
                 "label": "Analytics",
-                "icon": "📈"
+                "icon": "📈",
+                "route": "/analytics",
+                "translateKey": "menu.analytics"
             },
             {
                 "id": "insights",
                 "label": "Insights",
                 "icon": "📊",
-                "notifications": 2
+                "notifications": 2,
+                "route": "/insights",
+                "translateKey": "menu.insights"
             },
             {
                 "id": "updates",
                 "label": "Updates",
                 "icon": "📅",
-                "notifications": 6
+                "notifications": 6,
+                "route": "/updates",
+                "translateKey": "menu.updates"
             }
         ]
     },
     {
         "id": "products",
         "title": "Products",
+        "hidden": false,
         "items": [
             {
                 "id": "fashion",
-                "label": "Fashion"
+                "label": "Fashion",
+                "route": "/products/fashion",
+                "translateKey": "menu.products.fashion"
             },
             {
                 "id": "home-decor",
-                "label": "Home Decor"
+                "label": "Home Decor",
+                "route": "/products/home-decor",
+                "translateKey": "menu.products.homeDecor"
             },
             {
                 "id": "skincare",
-                "label": "Skincare"
+                "label": "Skincare",
+                "route": "/products/skincare",
+                "translateKey": "menu.products.skincare"
             },
             {
                 "id": "snacks",
-                "label": "Snacks"
+                "label": "Snacks",
+                "route": "/products/snacks",
+                "translateKey": "menu.products.snacks"
             }
         ]
     },
     {
         "id": "general",
         "title": "General",
+        "hidden": false,
         "items": [
             {
                 "id": "notifications",
                 "label": "Notifications",
                 "icon": "🔔",
-                "notifications": 8
+                "notifications": 8,
+                "route": "/notifications",
+                "translateKey": "menu.notifications"
             },
             {
                 "id": "settings",
                 "label": "Settings",
-                "icon": "⚙️"
+                "icon": "⚙️",
+                "route": "/settings",
+                "translateKey": "menu.settings"
             },
             {
                 "id": "feedback",
                 "label": "Feedback",
-                "icon": "📢"
+                "icon": "📢",
+                "route": "/feedback",
+                "translateKey": "menu.feedback"
             }
         ]
     }
