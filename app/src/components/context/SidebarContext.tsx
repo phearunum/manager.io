@@ -30,9 +30,9 @@ export const SidebarProvider = ({ children }: { children: ReactNode }) => {
   const [fontSize, setFontSize] = useState<number>(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("sidebarFontSize");
-      return stored ? parseInt(stored, 10) : 16;
+      return stored ? parseInt(stored, 10) : 14;
     }
-    return 16;
+    return 14;
   });
 
   // Persist states to localStorage

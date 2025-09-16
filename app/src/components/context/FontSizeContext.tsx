@@ -20,7 +20,7 @@ const FontSizeContext = createContext<FontSizeContextType | undefined>(
 export const FontSizeProvider = ({ children }: { children: ReactNode }) => {
   const [fontSize, setFontSize] = useState<number>(() => {
     const stored = localStorage.getItem("fontSize");
-    return stored ? parseInt(stored, 10) : 16;
+    return stored ? parseInt(stored, 10) : 14;
   });
 
   useEffect(() => {

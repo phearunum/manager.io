@@ -15,6 +15,7 @@ import LoginPage from "@/pages/LoginPage";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { ThemeProvider } from "./components/ThemProvider";
 import { cn } from "@/lib/utils";
+import InspectContainer from "./pages/container-detail";
 
 // Query client
 const queryClient = new QueryClient({
@@ -55,10 +56,18 @@ const Layout: React.FC<{ isDarkMode: boolean; toggleDarkMode: () => void }> = ({
               }
             />
             <Route
-              path="/profile"
+              path="/container"
               element={
                 <ProtectedRoute>
-                  <ProfilePage />
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/container/v/:id"
+              element={
+                <ProtectedRoute>
+                  <InspectContainer />
                 </ProtectedRoute>
               }
             />
@@ -70,6 +79,15 @@ const Layout: React.FC<{ isDarkMode: boolean; toggleDarkMode: () => void }> = ({
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

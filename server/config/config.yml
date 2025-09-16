@@ -1,9 +1,10 @@
 database:
-  host: 127.0.0.1
-  username: postgres
-  password: GzWNAAfEwAtnBSnb
-  name: db_enterprise
-  port: 5432
+  host: 192.168.50.102
+  username: kdc_user
+  password: kdc123456
+  name: kdc_database
+  port: 5423
+  driver: postgres
   driver: postgres
 secret_key: uhbi49y823ry78923ijrgu803289u3ui23
 service:

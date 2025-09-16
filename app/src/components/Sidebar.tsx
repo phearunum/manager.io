@@ -32,7 +32,7 @@ const user = {
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ fontSize = 16 }) => {
+const Sidebar: React.FC<SidebarProps> = ({ fontSize = 14 }) => {
   const { isSidebarCollapsed } = useSidebar();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeLink, setActiveLink] = useState<string>("dashboard");
@@ -64,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ fontSize = 16 }) => {
         flex items-center justify-between p-2 rounded-lg cursor-pointer transition-colors duration-200 mb-1
         ${
           location.pathname === item.route
-            ? "bg-purple-200 text-purple-800 dark:bg-purple-800 dark:text-white font-semibold"
+            ? "bg-blue-200/50 text-gray-800 dark:bg-gray-500/50 dark:text-white font-semibold"
             : "hover:bg-gray-200 dark:hover:bg-gray-700"
         }
       `}
@@ -97,12 +97,12 @@ const Sidebar: React.FC<SidebarProps> = ({ fontSize = 16 }) => {
       {/* Header */}
       <div className="mb-6 flex items-center justify-center">
         {isSidebarCollapsed ? (
-          <span className="bg-purple-700 text-white rounded-full w-8 h-8 flex items-center justify-center">
+          <span className="bg-blue-700 text-white rounded-full w-8 h-8 flex items-center justify-center">
             IM
           </span>
         ) : (
-          <div className="flex items-center font-bold text-xl text-purple-700 dark:text-purple-300">
-            <span className="bg-purple-700 text-white rounded-full w-10 h-10 flex items-center justify-center mr-2">
+          <div className="flex items-center font-bold text-xl text-blue-700 dark:text-blue-500">
+            <span className="bg-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center mr-2">
               IM
             </span>
             IManager
@@ -174,7 +174,7 @@ const Sidebar: React.FC<SidebarProps> = ({ fontSize = 16 }) => {
                 Free Trial
               </span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center hidden">
               <img
                 src={user.avatar}
                 alt="User Avatar"

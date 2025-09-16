@@ -1,9 +1,16 @@
 package main
 
 import (
+	"log"
+	"time"
+
+	service "imanager.io/internal/services"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"imanager.io/config"
+	"imanager.io/internal/api"
+	docker "imanager.io/internal/docker"
 )
 
 type SendMessageRequest struct {
@@ -28,13 +35,34 @@ var whitelist = map[string]bool{
 }
 
 func InitRoutes(cfg config.Config, s *Services) *gin.Engine {
+	// Init Docker client
+	cli, err := docker.NewDockerClient()
+	if err != nil {
+		log.Fatalf("Error creating Docker client: %v", err)
+	}
+
+	// Initialize service layer
+	containerService := service.NewContainerService(cli)
+	imageService := service.NewImageService(cli)
+
+	// Initialize API handlers
+	containerHandler := api.NewContainerHandler(containerService)
+	imageHandler := api.NewImageHandler(imageService)
+
 	r := gin.Default()
+
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:8080", "http://localhost:3000", "http://192.168.50.102:8080"},
+		AllowOrigins: []string{
+			"http://localhost:5173",
+			"http://192.168.50.102:5173",
+		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
 	}))
+	containerHandler.RegisterRoutes(r)
+	imageHandler.RegisterRoutes(r)
 	return r
 }

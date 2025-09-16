@@ -1,15 +1,29 @@
 [
     {
         "id": "team-workspace",
-        "title": "Dashboard",
+        "title": "Container Management",
         "hidden": true,
         "items": [
             {
                 "id": "dashboard",
-                "label": "Dashboard",
-                "icon": "🏠",
+                "label": "Container",
+                "icon": "🟦",
                 "route": "/",
                 "translateKey": "menu.dashboard"
+            },
+            {
+                "id": "server",
+                "label": "Server",
+                "icon": "💻",
+                "route": "/server",
+                "translateKey": "menu.server"
+            },
+            {
+                "id": "docker",
+                "label": "Docker",
+                "icon": "🟦",
+                "route": "/docker",
+                "translateKey": "menu.docker"
             },
             {
                 "id": "analytics",
@@ -33,37 +47,6 @@
                 "notifications": 6,
                 "route": "/updates",
                 "translateKey": "menu.updates"
-            }
-        ]
-    },
-    {
-        "id": "products",
-        "title": "Products",
-        "hidden": false,
-        "items": [
-            {
-                "id": "fashion",
-                "label": "Fashion",
-                "route": "/products/fashion",
-                "translateKey": "menu.products.fashion"
-            },
-            {
-                "id": "home-decor",
-                "label": "Home Decor",
-                "route": "/products/home-decor",
-                "translateKey": "menu.products.homeDecor"
-            },
-            {
-                "id": "skincare",
-                "label": "Skincare",
-                "route": "/products/skincare",
-                "translateKey": "menu.products.skincare"
-            },
-            {
-                "id": "snacks",
-                "label": "Snacks",
-                "route": "/products/snacks",
-                "translateKey": "menu.products.snacks"
             }
         ]
     },
