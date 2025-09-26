@@ -5,6 +5,7 @@ go 1.24.3
 require (
 	github.com/docker/docker v25.0.5+incompatible
 	github.com/gin-gonic/gin v1.10.1
+	github.com/google/uuid v1.6.0
 	golang.org/x/crypto v0.41.0
 	gorm.io/driver/mysql v1.6.0
 )
@@ -29,6 +30,7 @@ require (
 	github.com/go-playground/validator/v10 v10.26.0 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/pgx/v5 v5.6.0 // indirect

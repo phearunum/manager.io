@@ -7,46 +7,35 @@
             {
                 "id": "dashboard",
                 "label": "Container",
-                "icon": "🟦",
+                "icon": "Package",
+                "color": "blue",
                 "route": "/",
                 "translateKey": "menu.dashboard"
             },
             {
-                "id": "server",
-                "label": "Server",
-                "icon": "💻",
-                "route": "/server",
-                "translateKey": "menu.server"
+                "id": "images",
+                "label": "Images",
+                "icon": "HardDrive",
+                "color": "red",
+                "route": "/container/images",
+                "translateKey": "menu.images"
             },
             {
                 "id": "docker",
                 "label": "Docker",
                 "icon": "🟦",
+                "color": "blue",
                 "route": "/docker",
                 "translateKey": "menu.docker"
-            },
-            {
-                "id": "analytics",
-                "label": "Analytics",
-                "icon": "📈",
-                "route": "/analytics",
-                "translateKey": "menu.analytics"
             },
             {
                 "id": "insights",
                 "label": "Insights",
                 "icon": "📊",
+                "color": "blue",
                 "notifications": 2,
                 "route": "/insights",
                 "translateKey": "menu.insights"
-            },
-            {
-                "id": "updates",
-                "label": "Updates",
-                "icon": "📅",
-                "notifications": 6,
-                "route": "/updates",
-                "translateKey": "menu.updates"
             }
         ]
     },
@@ -64,10 +53,10 @@
                 "translateKey": "menu.notifications"
             },
             {
-                "id": "settings",
-                "label": "Settings",
+                "id": "Endpoint",
+                "label": "Endpoint",
                 "icon": "⚙️",
-                "route": "/settings",
+                "route": "/endpoint",
                 "translateKey": "menu.settings"
             },
             {

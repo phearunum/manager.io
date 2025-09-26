@@ -16,6 +16,9 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { ThemeProvider } from "./components/ThemProvider";
 import { cn } from "@/lib/utils";
 import InspectContainer from "./pages/container-detail";
+import ContainerImagePage from "./pages/container-image";
+import EndPointList from "./pages/endpoint-list";
+import EndpointHistory from "./pages/EndpointHistory";
 
 // Query client
 const queryClient = new QueryClient({
@@ -48,6 +51,15 @@ const Layout: React.FC<{ isDarkMode: boolean; toggleDarkMode: () => void }> = ({
         <main className="w-full flex-1 overflow-auto dark:bg-black p-1 pt-2 m-[0] ">
           <Routes>
             <Route
+              path="/endpoint"
+              element={
+                <ProtectedRoute>
+                  <EndPointList />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/backends/:id/history" element={<EndpointHistory />} />
+            <Route
               path="/"
               element={
                 <ProtectedRoute>
@@ -68,6 +80,14 @@ const Layout: React.FC<{ isDarkMode: boolean; toggleDarkMode: () => void }> = ({
               element={
                 <ProtectedRoute>
                   <InspectContainer />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/container/images"
+              element={
+                <ProtectedRoute>
+                  <ContainerImagePage />
                 </ProtectedRoute>
               }
             />

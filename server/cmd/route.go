@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	gatewayio "imanager.io/internal/gateway.io"
 	service "imanager.io/internal/services"
 
 	"github.com/gin-contrib/cors"
@@ -64,5 +65,40 @@ func InitRoutes(cfg config.Config, s *Services) *gin.Engine {
 	}))
 	containerHandler.RegisterRoutes(r)
 	imageHandler.RegisterRoutes(r)
+	return r
+}
+
+// Example of how InitRoutes should look (adjust types as needed)
+func InitGatewayRoutes(cfg config.Config, s *Services) *gin.Engine {
+	cli, err := docker.NewDockerClient()
+	if err != nil {
+		log.Fatalf("Error creating Docker client: %v", err)
+	}
+	containerService := service.NewContainerService(cli)
+	imageService := service.NewImageService(cli)
+	containerHandler := api.NewContainerHandler(containerService)
+	imageHandler := api.NewImageHandler(imageService)
+	configHandler := gatewayio.NewGatewayConfigHandler(s.BackendService) // Use the service layer
+	r := gin.Default()
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{
+			"http://localhost:5173",
+			"http://192.168.50.102:5173",
+		},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+	containerHandler.RegisterRoutes(r)
+	imageHandler.RegisterRoutes(r)
+	r.POST("/config/v1/backends", configHandler.CreateConfig)
+	r.GET("/config/v1/backends", configHandler.ListConfigs)
+	r.GET("/config/v1/backends/:id/history", configHandler.GetHealthHistory)
+	accessLogger := gatewayio.AccessLoggingHandler(s.Gateway)
+	r.NoRoute(accessLogger)
+	//r.NoRoute(gin.WrapH(s.Gateway))
+
 	return r
 }

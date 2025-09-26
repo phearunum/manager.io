@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSidebar } from "./context/SidebarContext";
 import sectionsData from "../data/menuItems.json";
+import * as LucideIcons from "lucide-react"; // import all icons
 
 interface MenuItem {
   id: string;
   label: string;
   icon?: string;
+  color?: string;
   notifications?: number;
   route?: string;
   translateKey?: string;
@@ -24,13 +26,6 @@ interface SidebarProps {
 }
 
 const sections: SidebarSection[] = sectionsData;
-
-const user = {
-  name: "Abdul Aziz",
-  email: "Abdul@gmail.com",
-  avatar:
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-};
 
 const Sidebar: React.FC<SidebarProps> = ({ fontSize = 14 }) => {
   const { isSidebarCollapsed } = useSidebar();
@@ -54,34 +49,52 @@ const Sidebar: React.FC<SidebarProps> = ({ fontSize = 14 }) => {
 
   const handleMenuClick = (item: MenuItem) => {
     setActiveLink(item.id);
-    if (item.route) navigate(item.route); // Navigate without refresh
+    if (item.route) navigate(item.route);
   };
 
-  const renderMenuItem = (item: MenuItem) => (
-    <li
-      key={item.id}
-      className={`
-        flex items-center justify-between p-2 rounded-lg cursor-pointer transition-colors duration-200 mb-1
-        ${
-          location.pathname === item.route
-            ? "bg-blue-200/50 text-gray-800 dark:bg-gray-500/50 dark:text-white font-semibold"
-            : "hover:bg-gray-200 dark:hover:bg-gray-700"
-        }
-      `}
-      onClick={() => handleMenuClick(item)}
-      title={item.translateKey || item.label}
-    >
-      <div className="flex items-center">
-        {item.icon && <span className="mr-3 text-lg">{item.icon}</span>}
-        {!isSidebarCollapsed && <span>{item.label}</span>}
-      </div>
-      {!isSidebarCollapsed && item.notifications !== undefined && (
-        <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded-full">
-          {item.notifications}
-        </span>
-      )}
-    </li>
-  );
+  const renderMenuItem = (item: MenuItem) => {
+    // Dynamic icon mapping
+    const IconComponent = item.icon
+      ? (LucideIcons as unknown)[item.icon]
+      : null;
+
+    return (
+      <li
+        key={item.id}
+        className={`
+          flex items-center justify-between p-2 rounded-lg cursor-pointer transition-colors duration-200 mb-1
+          ${
+            location.pathname === item.route
+              ? "bg-blue-200/50 text-gray-800 dark:bg-gray-500/50 dark:text-white font-semibold"
+              : "hover:bg-gray-200 dark:hover:bg-gray-700"
+          }
+        `}
+        onClick={() => handleMenuClick(item)}
+        title={item.translateKey || item.label}
+      >
+        <div className="flex items-center">
+          {IconComponent && (
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center bg-blue-200"
+              // fallback blue-200
+            >
+              <IconComponent
+                size={18}
+                color={item.color || "#2563eb"} // fallback blue-600
+              />
+            </div>
+          )}
+          {!isSidebarCollapsed && <span className="ml-1">{item.label}</span>}
+        </div>
+
+        {!isSidebarCollapsed && item.notifications !== undefined && (
+          <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded-full">
+            {item.notifications}
+          </span>
+        )}
+      </li>
+    );
+  };
 
   return (
     <aside
@@ -173,19 +186,6 @@ const Sidebar: React.FC<SidebarProps> = ({ fontSize = 14 }) => {
               <span className="bg-white text-purple-600 font-bold text-xs px-3 py-1 rounded-full">
                 Free Trial
               </span>
-            </div>
-            <div className="flex items-center hidden">
-              <img
-                src={user.avatar}
-                alt="User Avatar"
-                className="w-10 h-10 rounded-full mr-3"
-              />
-              <div className="flex flex-col">
-                <span className="font-semibold text-gray-800 dark:text-gray-200">
-                  {user.name}
-                </span>
-                <span className="text-sm text-gray-500">{user.email}</span>
-              </div>
             </div>
           </>
         )}

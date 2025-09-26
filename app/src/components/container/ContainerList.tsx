@@ -7,7 +7,6 @@ import {
   deleteContainer,
 } from "@/services/docker.apt";
 import {
-  ArrowUp,
   CirclePause,
   CirclePlay,
   FileBox,
